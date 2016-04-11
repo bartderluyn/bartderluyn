@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Checklist xsi:schemaLocation="http://fgov.be/rsvz/definitions http://vs-docgen-vent-dev2.test.ardatis.com:13542/scriptura-repository/files/eDossierRSVZ/XSD/GLS_checklist.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Betrokkene>
+		<INSZ-nummer>540421.149.92</INSZ-nummer>
+		<Naam>LAFAUT MARC</Naam>
+	</Betrokkene>
+	<Gelijkstelling>
+		<TypeGelijkstelling>ZIEKTE</TypeGelijkstelling>
+		<Periode>
+			<KwartaalVan>2120/1</KwartaalVan>
+			<KwartaalTot>...</KwartaalTot>
+			<DatumErkenningArbeidsongeschiktheid>2120-01-09+01:00</DatumErkenningArbeidsongeschiktheid>
+			<ResultaatHoofdberoep>OK</ResultaatHoofdberoep>
+			<ResultaatBijdrage>OK</ResultaatBijdrage>
+			<Kwartaal>
+				<KwartaalResultaat>
+					<Voorwaarde>ERK_ARB_ONG</Voorwaarde>
+					<Resultaat>NOK</Resultaat>
+					<Leeftijdcode/>
+					<ReadOnly>false</ReadOnly>
+				</KwartaalResultaat>
+				<KwartaalResultaat>
+					<Voorwaarde>STOPZ_ACT</Voorwaarde>
+					<Resultaat>OK</Resultaat>
+					<Leeftijdcode/>
+					<ReadOnly>false</ReadOnly>
+				</KwartaalResultaat>
+				<KwartaalResultaat>
+					<Voorwaarde>GN_PENSIOEN</Voorwaarde>
+					<Resultaat>OK</Resultaat>
+					<Leeftijdcode/>
+					<ReadOnly>false</ReadOnly>
+				</KwartaalResultaat>
+				<KwartaalResultaat>
+					<Voorwaarde>GN_RECHT_AS</Voorwaarde>
+					<Resultaat>OK</Resultaat>
+					<Leeftijdcode/>
+					<ReadOnly>false</ReadOnly>
+				</KwartaalResultaat>
+				<KwartaalResultaat>
+					<Voorwaarde>GN_VERVR_PENS</Voorwaarde>
+					<Resultaat>OK</Resultaat>
+					<Leeftijdcode/>
+					<ReadOnly>false</ReadOnly>
+				</KwartaalResultaat>
+				<Samenvatting>NOK</Samenvatting>
+				<KwartaalNaam>...</KwartaalNaam>
+			</Kwartaal>
+		</Periode>
+	</Gelijkstelling>
+</Checklist>

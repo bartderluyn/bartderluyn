@@ -1,0 +1,157 @@
+package graphics;
+
+import java.applet.Applet;
+
+import javax.swing.DebugGraphics;
+
+public class TestGraphics extends Applet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7619801475399166056L;
+	private static java.awt.Graphics graphics;
+	private static TestGraphics testGraphics;
+	public Sun[] sunArray = new Sun[10];
+	Double g = new Double(7.67 * 10E-11);
+	Double timeLapse = new Double(9400);
+	Double vergroter = (double) 40;
+	Double scale = 2 / 10E9;
+
+	public void initializeTestGraphics(Sun... theSunArray) {
+		setSunArray(theSunArray);
+	}
+
+	public void calculateNewSpeedsAndPositons(Sun... theSunArray) {
+		calculateNewAcceleration(theSunArray);
+		calculateNewSpeedAndPosition(theSunArray);
+	}
+
+	private void calculateNewAcceleration(Sun[] theSunArray) {
+		for (int i = 0; i < theSunArray.length; i++) {
+			Sun sun = theSunArray[i];
+			sun.horizontalAcceleration = (double) 0;
+			sun.verticalAcceleration = (double) 0;
+			for (int j = 0; j < theSunArray.length; j++) {
+				Sun otherSun = theSunArray[j];
+				if (i != j) {
+					addAcceleration(sun, otherSun);
+				}
+			}
+		}
+
+	}
+
+	private void addAcceleration(Sun sun, Sun otherSun) {
+		Double newAcceleration = calculateAccelarationFirstSunByMassSecondSunAndDistanceBetweenSuns(sun, otherSun); // 'm/s^2
+		sun.horizontalAcceleration = sun.horizontalAcceleration
+			+ (((sun.horizontalPosition - otherSun.horizontalPosition)
+			/ calculateAbsoluteDistance(sun, otherSun))
+			* newAcceleration);
+		// dvz11# = (xz1# - xz2#) / SQR((xz1# - xz2#) ^ 2 + (yz1# - yz2#) ^ 2 + dis) * dvz1a# ' versnelling in x-richting
+		sun.verticalAcceleration = sun.verticalAcceleration
+			+ (((sun.verticalPosition - otherSun.verticalPosition)
+			/ calculateAbsoluteDistance(sun, otherSun))
+			* newAcceleration);
+	}
+
+	private double calculateAbsoluteDistance(Sun sun, Sun otherSun) {
+		return Math.sqrt(tweedeMacht(sun.horizontalPosition, otherSun.horizontalPosition)
+			+ tweedeMacht(sun.verticalPosition, otherSun.verticalPosition));
+	}
+
+	private double calculateAccelarationFirstSunByMassSecondSunAndDistanceBetweenSuns(Sun sun, Sun otherSun) {
+		return (-g) * otherSun.mass
+			/ ((tweedeMacht(sun.horizontalPosition, otherSun.horizontalPosition) + tweedeMacht(sun.verticalPosition, otherSun.verticalPosition)));
+	}
+
+	private void calculateNewSpeedAndPosition(Sun[] theSunArray) {
+		for (int i = 0; i < theSunArray.length; i++) {
+			addSpeed(theSunArray[i]);
+
+		}
+
+	}
+
+	private void addSpeed(Sun sun) {
+		calculateNewSpeedByOldSpeedAndCurrentAccelerationAndTimeInterval(sun, getTimeInterval()); // 'm/s^2
+	}
+
+	private void calculateNewSpeedByOldSpeedAndCurrentAccelerationAndTimeInterval(Sun sun, Double timeInterval) {
+		sun.horizontalSpeed = sun.horizontalSpeed + (sun.horizontalAcceleration * timeInterval);
+		sun.verticalSpeed = sun.verticalSpeed + (sun.verticalAcceleration * timeInterval);
+		changePosition(sun);
+	}
+
+	private void changePosition(Sun sun) {
+		sun.horizontalPosition = sun.horizontalPosition + (sun.horizontalSpeed * getTimeInterval());
+		sun.verticalPosition = sun.verticalPosition + (sun.verticalSpeed * getTimeInterval());
+	}
+
+	private Double getTimeInterval() {
+		return timeLapse;
+	}
+
+	private double tweedeMacht(Double horizontalPosition, Double horizontalPosition2) {
+		return Math.pow(horizontalPosition - horizontalPosition2, 2);
+	}
+
+	@Override
+	public void paint(java.awt.Graphics graphics) {
+		//graphics.drawString("hallo wereld", 80, 80);
+		while (1 != 2) {
+			if (sunArray[0] == null) {
+				Sun sun1 = new Sun(new Double(0.2 * 10E30), 100 * 10E9, (double) 0, -0 * vergroter, 1000
+					* vergroter);
+				Sun sun2 = new Sun(new Double(0.2 * 10E30), -100 * 10E9, (double) 0, -0 * vergroter, -1000
+					* vergroter);
+				Sun sun3 = new Sun(new Double(0.20 * 10E30), (double) 0, 100 * 10E9, -1000 * vergroter, (double) 0);
+				Sun sun4 = new Sun(new Double(0.20 * 10E30), (double) 0, -100 * 10E9, 1000 * vergroter, (double) 0);
+	//			initializeTestGraphics(sun1, sun2);
+				initializeTestGraphics(sun1, sun2, sun3, sun4);
+			}
+			calculateNewSpeedsAndPositons(sunArray);
+			showPositions(sunArray, graphics);
+
+		}
+	}
+
+	private void showPositions(Sun[] theSunArray, java.awt.Graphics graphics) {
+		for (int i = 0; i < theSunArray.length; i++) {
+			java.awt.Color c = new java.awt.Color(255, 0, 0);
+			if (i == 1) {
+				c = new java.awt.Color(0, 255, 0);
+			} else if (i == 2) {
+				c = new java.awt.Color(0, 0, 255);
+			} else if (i == 3) {
+				c = new java.awt.Color(255, 0, 255);
+			}
+			graphics.setColor(c);
+			Sun sun = theSunArray[i];
+			int x = (int) (sun.horizontalPosition * scale + 1000);
+			int y = (int) (sun.verticalPosition * scale + 600);
+			graphics.drawRect(x, y, 2, 2);
+			if (x < 0 || x > 2000 || y < 0 || y > 2000){
+				sunArray[0] = null;
+				vergroter = vergroter * 1.0001;
+				graphics.setColor(new java.awt.Color(0, 0, 0));
+				graphics.fillRect(0,0,2000,2000);
+			}
+		}
+	}
+
+	public static void main(String args[]) throws Exception {
+		graphics = new DebugGraphics();// .create(100, 100, 4000, 4000);
+		testGraphics = new TestGraphics();
+		testGraphics.paint(graphics);
+		testGraphics.stop();
+	}
+
+	public Sun[] getSunArray() {
+		return sunArray;
+	}
+
+	public void setSunArray(Sun[] newSunArray) {
+		sunArray = newSunArray;
+	}
+
+}

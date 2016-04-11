@@ -1,0 +1,10 @@
+INDEX VERSION 1.126+C:\Newton\_workspaces\Newton\Newton\.metadata\.plugins\org.eclipse.jdt.core
+1733121897.index
+1016912463.index
+1141736445.index
+1275005366.index
+1343661116.index
+582060695.index
+4041649154.index
+2573616311.index
+242378663.index
